@@ -18,7 +18,10 @@ could find a way to write algorithmic electronic music using a programming langu
 
 Eventually, I discovered [SuperCollider](https://supercollider.github.io/), but I was still too green to understand its wacky syntax 
 (more on this later) and I had more to learn about basic programming and comp-sci fundamentals before I could really grok how to use it.
-Fast forward a few years to today where I feel ready to start exploring and writing about the journey. 
+Fast forward a few years to today where I feel ready to start exploring and writing about the journey. (Note: I'm assuming the reader
+has some familiarity with programming languages, whether its JavaScript or Python or Java. I'll be using a lot of analogies from other
+languages, but I'll try to explain things as I go. Please comment if you'd like clarification or point out an error, though please
+realize that this document is intented as a record of my *mistakes* as I've been learning the SuperCollider language.)
 
 # First Impressions
 
@@ -53,8 +56,30 @@ x.play
 ```
 Sweet! This plays a sine-wave generator (the part that says `-> Synth('temp__1' : 1000)` in the post window) at the default 440hz. 
 Hitting CMD-. (ie the command key and a `.`) kills the sound. So whats the deal with the curleys that I needed? As you can see above, 
-wrapping statements in curleys turns it into a function (as noted in the post window when it printed `-> a Function` after I evaluated
+wrapping statements in curleys turns it into a function (as noted in the post window when it printed 
+```-> a Function``` 
+after I evaluated
 that line). Since synths don't have a `play` method, but functions do, we need to wrap code up in curleys to make sure we can execute it
 as a sound generator. Ok, sure. Thats fine. 
 
-Now I'd like to 
+The code above can be cleaned up a bit too, as you can call methods directly on function literals <sup id="a2">[2](#f2)</sup>.
+
+
+
+# Notes
+
+- <b id="f2">2</b> A function literal is a group of
+statements surrounded in `{}` (curley brackets). The term *literal* means that you don't need to add a redundent statement declaring
+that you intend to create a function, like how most everything is in Java. You're probably most familiar with string literals that 
+surround the content in `""` quotes like so: `"I am a string"`. JavaScript has Array literals where you can just write 
+``` JavaScript
+x = ["I", "am", "a", "string", "array"]
+```
+And *almost* has function literals with the addition of arrow functions
+``` JavaScript
+add = (arg1, arg2) => arg1 + arg2 
+x = add(1, 2) // evaluates to: x = 1 + 2
+```
+but the syntax isn't the same as in SuperCollider. [↩](#a2)
+
+
