@@ -18,10 +18,7 @@ could find a way to write algorithmic electronic music using a programming langu
 
 Eventually, I discovered [SuperCollider](https://supercollider.github.io/), but I was still too green to understand its wacky syntax 
 (more on this later) and I had more to learn about basic programming and comp-sci fundamentals before I could really grok how to use it.
-Fast forward a few years to today where I feel ready to start exploring and writing about the journey. (Note: I'm assuming the reader
-has some familiarity with programming languages, whether its JavaScript or Python or Java. I'll be using a lot of analogies from other
-languages, but I'll try to explain things as I go. Please comment if you'd like clarification or point out an error, though please
-realize that this document is intented as a record of my *mistakes* as I've been learning the SuperCollider language.)
+Fast forward a few years to today where I feel ready to start exploring and writing about the journey<sup id="a1">[1](#f1)</sup>.
 
 # First Impressions
 
@@ -63,12 +60,77 @@ that line). Since synths don't have a `play` method, but functions do, we need t
 as a sound generator. Ok, sure. Thats fine. 
 
 The code above can be cleaned up a bit too, as you can call methods directly on function literals <sup id="a2">[2](#f2)</sup>.
+``` SuperCollider
+y = {SinOsc.ar}.play;
+```
+Nice. 
 
+Ok, so let's flesh out this sine wave and try to make it more musical. When we write `SineOsc.ar`, we're creating a synth that is 
+generating an audio signal (the `ar` bit means 'audio-rate', which generates enough wave-form samples to sound good when played on
+our speakers). We can pass in some arguments to change the default settings like so<sup id="a3">[3](#f3)</sup>:
+``` SuperCollider
+y = {SinOsc.ar(freq:220, phase:0, mul:0.25, add:0)}.play;
+```
+Cool. Since I'm in the habit of writing functions that handle little bits of computation, I'd like to write a little function that 
+randomly computes a frequency for our little sine wave. Here's my first attempt (spoiler alert: this is *incorrect* as we'll see 
+shortly). After writing this, I hit CTRL-A to highlight everything and evaluate with CTRL-ENTER:
+``` SuperCollider
+randHarmonic = {
+  var primes = [2,3,5,7,11,13];
+  primes[ 6.rand ]; // value of last line of a function is returned implicitly
+};
 
+y = {SinOsc.ar( 220 * randHarmonic, mul:0.25)}.play;
+```
+Uh oh.. I got an error:
+``` Error
+ERROR: Variable 'randHarmonic' not defined.
+  in file 'selected text'
+  line 4 char 2:
+
+  };
+    
+  
+-----------------------------------
+ERROR: Variable 'randHarmonic' not defined.
+  in file 'selected text'
+  line 6 char 34:
+
+  y = {SinOsc.ar( 220 * randHarmonic, mul:0.25)}.play; 
+                                    
+-----------------------------------
+-> nil
+```
+But I defined `randHarmonic` the same way as the function `y`? How come it didn't work? Well dear reader, you'd be surprised to find out 
+that SuperCollider treats lower-case single-letter variable names like `y` differently than longer names like `randHarmonic`. Awesome 🙃. It all has to do with local and global variables. Lower case letters are reserved as global variables, and therefore when we
+assign a function to one of these letters it is visible everywhere. My `randHarmonic` name isn't visible anywhere, in fact, so to make
+it into a global variable I have to prepend a `~` before the name. Also, to make things easier for evaluation, we need to surround all 
+of these statements in `()` paren's to tell the interpreter to treat everything as a single code block. This is handy because now we can
+evaluate the whole block with CTRL-ENTER without having to highlight every line (as long as the cursor is focused anywhere within the
+block). So now our code looks like this:
+``` SuperCollider
+(
+~randHarmonic = {
+  var primes = [2,3,5,7,11,13];
+  primes[ 6.rand ]; // value of last line of a function is returned implicitly
+};
+
+y = {SinOsc.ar( 220 * ~randHarmonic, mul:0.25)}.play;
+)
+```
+Evaluating this block creates a new synth with a frequency that is multiplied by a randomly selected prime number. If you keep 
+evaluating it then it will keep creating new syths that are all in harmony with eachother (though they may sound a bit funny!). 
 
 # Notes
 
-- <b id="f2">2</b> A function literal is a group of
+<b id="f1">1:</b> I'm assuming the reader has some familiarity with programming languages, whether its JavaScript or Python or Java. 
+I'll be using a lot of analogies from other languages, but I'll try to explain things as I go. 
+Please comment if you'd like clarification or point out an error, though please realize that this document is intented as a record 
+of my *mistakes* as I've been learning the SuperCollider language. [↩](#a1)
+
+---
+
+<b id="f2">2:</b> A function literal is a group of
 statements surrounded in `{}` (curley brackets). The term *literal* means that you don't need to add a redundent statement declaring
 that you intend to create a function, like how most everything is in Java. You're probably most familiar with string literals that 
 surround the content in `""` quotes like so: `"I am a string"`. JavaScript has Array literals where you can just write 
@@ -81,5 +143,19 @@ add = (arg1, arg2) => arg1 + arg2
 x = add(1, 2) // evaluates to: x = 1 + 2
 ```
 but the syntax isn't the same as in SuperCollider. [↩](#a2)
+
+---
+
+<b id="f3">3:</b> We don't need to specify the argument names, but I wrote it here to document what the arguments mean. It 
+could have looked like so:
+``` SuperCollider
+y = {SinOsc.ar(220, 0, 0.25, 0)}.play;
+// or
+y = {SinOsc.ar(220, 0, 0.25)}.play;
+// or
+y = {SinOsc.ar(freq:220, mul:0.25)}.play;
+// etc..
+```
+[↩](#a3)
 
 
