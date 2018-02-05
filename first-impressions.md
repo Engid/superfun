@@ -118,23 +118,96 @@ it into a global variable I have to prepend a `~` before the name.
 
 
 Also, to make things easier for evaluation, we need to surround all 
-of these statements in `()` paren's to tell the interpreter to treat everything as a single code block. This is handy because now we can
+of these statements in `()` paren's to tell the interpreter to treat everything as a **single code block**, with individual statements 
+separated by `;` semicolons. This is handy because now we can
 evaluate the whole block with CTRL-ENTER without having to highlight every line (as long as the cursor is focused anywhere within the
 block). So now our code looks like this:
 ``` SuperCollider
 (
-~randHarmonic = {
-  var primes = [2,3,5,7,11,13];
-  primes[ 6.rand ]; // value of last line of a function is returned implicitly
-};
+  ~randHarmonic = {
+    var primes = [2,3,5,7,11,13];
+    primes[ 6.rand ]; // value of last line of a function is returned implicitly
+  };
 
-y = {SinOsc.ar( 220 * ~randHarmonic, mul:0.25)}.play;
+  y = {SinOsc.ar( 220 * ~randHarmonic, mul:0.25)}.play;
 )
 ```
 Evaluating this block creates a new synth with a frequency that is multiplied by a randomly selected prime number. If you keep 
 evaluating it then it will keep creating new syths that are all in harmony with eachother (though they may sound a bit funny!). 
 
-### More coming soon...
+This is all well and good but that's kindof odd if you ask me, what with using a `~` before a name. Isn't there a better way? Why yes, 
+in fact, there is. If you haven't guessed already, its the `var` keyword! Another great feature of putting code in a block (by 
+surrounding it in parens) is that we can declare scoped variables with the `var` keyword outside of functions. If we make that change, 
+we're left with:
+``` SuperCollider
+(
+  var randHarmonic = {
+    var primes = [2,3,5,7,11,13];
+    primes[ 6.rand ]; // value of last line of a function is returned implicitly
+  };
+
+  y = {SinOsc.ar( 220 * randHarmonic, mul:0.25)}.play;
+)
+```
+
+But you may be wondering something. Take a look at what we are passing into the `SinOsc.ar` method for the `freq` value. It's the 
+expression: `220 * randHarmonic`. Isn't `randHarmonic` a function? How did that work if we just pass in the name? Well, I don't 
+understand all of the details yet, but lets break it down with an example. 
+
+Write this and evaluate it 
+``` supercollider
+(
+  var three = {3};
+  three
+)
+```
+and you'll see 
+``` console
+-> a Function
+```
+printed to the post window. 
+
+
+Now try doing some math:
+```
+(
+  var three = {3};
+  2 * three
+)
+```
+If we evaluate this, the post window logs:
+```
+-> a BinaryOpFunction
+```
+I'm not really sure how this is working (I can't find this explained in the docs yet) but it looks like the expression `2 * three` is 
+treated as a *new* function! Ordinarily in SuperCollider, to call a function we must send the `value` message to the function like so:
+``` supercollider
+(
+  var three = {3};
+  three.value;
+)
+```
+```console
+-> 3
+```
+
+And likewise
+``` supercollider
+(
+  var three = {3};
+  (2 * three).value;
+)
+```
+```console
+-> 6
+```
+Pretty neat, I suppose. This must mean that in our example above, we can in a function into `SinOsc` in place of a value for the `freq` 
+argument, and SuperCollider will know how to extract the value! This makes sense, because we can also pass in a `SinOsc` in place of a
+static value and use it to create a nice source of dynamicism. We'll see more about this soon, but for now, I think its time to take a 
+break!
+
+**Stay *tuned* for more..**
+
 
 # Notes
 
