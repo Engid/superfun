@@ -29,9 +29,9 @@ Fast forward a few years to today, where I feel ready to start exploring and wri
 # First Impressions
 
 As I said before, my first *real* (and very serious) language was [JavaScript](https://www.destroyallsoftware.com/talks/wat). 
-Despite its own weirdness, its syntax and semeantics feels like *home*, so it's what I compare to when I learn a new language. 
+Despite its own weirdness, its syntax and semantics feels like *home*, so it's what I compare to when I learn a new language. 
 Lisp was hard because it felt like everything was upside down and inside out. 
-C++ was full of pointer pitfalls. Python was like writing prose. Every new language one learns has its awkward learning 
+C++ was full of pointer pitfalls and compilation errors. Every new language one learns has its awkward learning 
 moments, so just like the rest, learning SuperCollider has felt like.. *"Wat?"*. 
 
 ## Scope and Nope, Functions and Funtime!
