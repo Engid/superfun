@@ -1,32 +1,38 @@
 # Greetings
-I've been very interested in getting back into writing algorithmic electronic music from scratch. Its what I spent a great deal of time on in undergrad
-using software like [MaxMSP](https://cycling74.com/products/max/) and [PureData](https://puredata.info/). Heres a piece from my 'senior project' called [Crystal Growth](https://soundcloud.com/nickgideo/crystal-growth).  
+I've been very interested in getting back into writing algorithmic electronic music from scratch. It's what I spent a great deal of time on in undergrad,
+using software like [MaxMSP](https://cycling74.com/products/max/) and [PureData](https://puredata.info/). Here's a piece from my 'senior project' called [Crystal Growth](https://soundcloud.com/nickgideo/crystal-growth).  
 
-When I started with using MaxMSP and PD, I barely knew anything about programming. For instance, Crystal Growth could have easily been 
-constructed from a set of loops, but because I didn't understand how to use loops I basically hard-wired everything. 
-If you look at the lower right corner of the image below you'll see a daisy-chain of delays. Each delay corresponded to a single
-triggering of a note played by an oscillator (an object that makes a single sound). Clearly, this was not a scaleable way to make music!
+When I started using MaxMSP and PD, I barely knew anything about programming. For instance, Crystal Growth could have easily been constructed using loops, but because I didn't even know what loops *were*, I basically hard-wired everything. 
+If you look at the lower right corner of the image below you'll see a daisy-chain of delays. Each delay corresponds to a 
+single triggering of a note played by an oscillator (an object that makes sound). Clearly, this was not a scaleable 
+way to make music!
 
 ![Lots of duplicated delays](crystal-growth.jpg)
 
 
-After graduating, I stumbled into a job where I needed to learn how to organize things in spreadsheets. Google Apps (docs, sheets, etc) 
-has a neat feature that lets you write scripts using JavaScript, so I started teaching myself a *real* programming language. I quickly
-realized how idiotic I was to not have used loops in my previous programming efforts. Also, In Max and PD, you 'write code' by clicking
-and dragging 'wires' that connect object blocks. This is *INCREDIBLY* tedious for a large program (see above) so I hoped that someday I 
-could find a way to write algorithmic electronic music using a programming language without having to use a damn mouse! 
+After graduating, I stumbled into a job where I needed to learn how to organize things in spreadsheets,
+and automate some of the process. Google Apps (docs, sheets, etc) has a neat feature that lets you write scripts using 
+JavaScript, so I started teaching myself a *real* programming language (if you can call it that). I quickly
+realized how idiotic I was to not have used loops in my previous programming efforts. 
 
-Eventually, I discovered [SuperCollider](https://supercollider.github.io/), but I was still too green to understand its wacky syntax 
-(more on this later) and I had more to learn about basic programming and comp-sci fundamentals before I could really grok how to use it.
-Fast forward a few years to today where I feel ready to start exploring and writing about the journey<sup id="a1">[1](#f1)</sup>.
+Another huge advancement was the power of being able to *write* instructions. In MaxMSP and PureData, you 'write code' by 
+clicking and dragging 'wires' that connect object blocks. This is *INCREDIBLY* tedious for a large program (see above) so I 
+hoped that someday I could find a way to write algorithmic electronic music using a text based programming language and not 
+with a damn mouse! 
+
+At about the time I started learning JavaScript, I discovered [SuperCollider](https://supercollider.github.io/). I was still 
+too green to understand its wacky syntax (more on this later) and didn't know enough about basic programming and comp-sci 
+fundamentals to really grok how to use it.
+Fast forward a few years to today, where I feel ready to start exploring and writing about the journey<sup id="a1">[1](#f1)</sup>.
 
 # First Impressions
 
-As I said before, my first *real* language (if you can call it that) was JavaScript. Its syntax and semeantics feels like *home*, so it's
-what I compare to when I learn a new language. Lisp was hard because it felt like everything was upside down and inside out. C++ was full
-of pitfalls, and I missed first class functions. Python was like writing prose. SuperCollider so far is.. *"Wat?"*. 
+As I said before, my first *real* and very serious language was [JavaScript](https://www.destroyallsoftware.com/talks/wat). 
+Its syntax and semeantics feels like *home*, so it's
+what I compare to when I learn a new language. Lisp was hard because it felt like everything was upside down and inside out. 
+C++ was full of pointer pitfalls. Python was like writing prose. SuperCollider so far is.. *"Wat?"*. 
 
-## Variables and Scope and Functions, oh my!
+## Scope and Nope, Functions and Funtime!
 
 Awesome, so I'm looking at this language now and it looks neat. A little *wierd*, but neat. I boot up the audio-server with CMD-B 
 and try to remember how to make a sound. I think I know how it works so lets see. 
