@@ -76,6 +76,7 @@ y = {SinOsc.ar}.play;
 ```
 Nice. 
 
+### Let's be interesting
 Ok, so let's flesh out this sine wave and try to make it more musical. When we write `SineOsc.ar`, we're creating a synth that is 
 generating an audio signal (the `ar` bit means 'audio-rate', which generates enough wave-form samples to sound good when played on
 our speakers). We can pass in some arguments to change the default settings like so<sup id="a3">[3](#f3)</sup>:
@@ -135,6 +136,8 @@ block). So now our code looks like this:
 Evaluating this block creates a new synth with a frequency that is multiplied by a randomly selected prime number. If you keep 
 evaluating it then it will keep creating new syths that are all in harmony with eachother (though they may sound a bit funny!). 
 
+
+### Vars and Values
 This is all well and good but that's kindof odd if you ask me, what with using a `~` before a name. Isn't there a better way? Why yes, 
 in fact, there is. If you haven't guessed already, its the `var` keyword! Another great feature of putting code in a block (by 
 surrounding it in parens) is that we can declare scoped variables with the `var` keyword outside of functions. If we make that change, 
@@ -223,14 +226,21 @@ statements surrounded in `{}` (curley brackets). The term *literal* means that y
 that you intend to create a function, like how most everything is in Java. You're probably most familiar with string literals that 
 surround the content in `""` quotes like so: `"I am a string"`. JavaScript has Array literals where you can just write 
 ``` JavaScript
-x = ["I", "am", "a", "string", "array"]
+var x = ["I", "am", "a", "string", "array"]
 ```
-And *almost* has function literals with the addition of arrow functions
+but for functions, you have to use the `function` keyword like so
 ``` JavaScript
-add = (arg1, arg2) => arg1 + arg2 
-x = add(1, 2) // evaluates to: x = 1 + 2
+function add (arg1, arg2) {
+  return arg1 + arg2;
+}
 ```
-but the syntax isn't the same as in SuperCollider. [↩](#a2)
+
+Since the ES2015 update, JavaScript *basically* has function literals via arrow functions
+``` JavaScript
+let add = (arg1, arg2) => arg1 + arg2 
+let x = add(1, 2) // evaluates to: x = 1 + 2
+```
+but it isn't quite the same as in SuperCollider. [↩](#a2)
 
 ---
 
