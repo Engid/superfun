@@ -11,9 +11,10 @@ way to make music!
 
 
 After graduating, I stumbled into a job where I needed to learn how to organize things in spreadsheets,
-and automate some of the process. Google Apps (docs, sheets, etc) has a neat feature that lets you write scripts using 
-JavaScript, so I started teaching myself a *real* programming language (if you can call it that). I quickly
-realized how idiotic I was to not have used loops in my previous programming efforts. 
+and automate some of the process. Google Apps (docs, sheets, etc) has a neat feature that lets you write 
+[scripts](https://developers.google.com/apps-script/) using JavaScript, so I started teaching myself 
+a *real* programming language (if you can call it that). 
+I quickly realized how idiotic I was to not have used loops in my previous programming efforts (among other things)! 
 
 Another huge advancement was the power of being able to *write* instructions. In MaxMSP and PureData, you 'write code' by 
 clicking and dragging 'wires' that connect object blocks. This is *INCREDIBLY* tedious for a large program (see above) so I 
@@ -27,17 +28,18 @@ Fast forward a few years to today, where I feel ready to start exploring and wri
 
 # First Impressions
 
-As I said before, my first *real* and very serious language was [JavaScript](https://www.destroyallsoftware.com/talks/wat). 
-Its syntax and semeantics feels like *home*, so it's
-what I compare to when I learn a new language. Lisp was hard because it felt like everything was upside down and inside out. 
-C++ was full of pointer pitfalls. Python was like writing prose. SuperCollider so far is.. *"Wat?"*. 
+As I said before, my first *real* (and very serious) language was [JavaScript](https://www.destroyallsoftware.com/talks/wat). 
+Despite its own weirdness, its syntax and semeantics feels like *home*, so it's what I compare to when I learn a new language. 
+Lisp was hard because it felt like everything was upside down and inside out. 
+C++ was full of pointer pitfalls. Python was like writing prose. Every new language one learns has its awkward learning 
+moments, so just like the rest, learning SuperCollider has felt like.. *"Wat?"*. 
 
 ## Scope and Nope, Functions and Funtime!
 
-Awesome, so I'm looking at this language now and it looks neat. A little *wierd*, but neat. I boot up the audio-server with CMD-B 
-and try to remember how to make a sound. I think I know how it works so lets see. 
-The IDE has nice code-execution with SHIFT-ENTER running each line, so I hit that after writing each line below. 
-So lets make an oscillator and make a sound
+Awesome, so I'm looking at this language now and it looks neat. A little *wierd*, but neat. I boot up the audio-server with 
+CTRL-B and try to remember how to make a sound. I think I know how it works so lets see. 
+The IDE has nice code-execution -- hitting SHIFT-ENTER will execute a line -- so I hit that as I go. 
+Lets make an oscillator and try to make a sound.
 ``` SuperCollider
 x = SinOsc.ar
 x.play
@@ -57,10 +59,13 @@ x.play
 -> a Function
 -> Synth('temp__1' : 1000)
 ```
-Sweet! This plays a sine-wave generator (the part that says `-> Synth('temp__1' : 1000)` in the post window) at the default 440hz. 
-Hitting CMD-. (ie the command key and a `.`) kills the sound. So whats the deal with the curleys that I needed? As you can see above, 
+Sweet! This creates a sine-wave generator (the part that says `-> Synth('temp__1' : 1000)` in the post window) at the default 440hz. 
+Hitting CTRL-. (ie the Control key and a `.`) kills the sound. 
+So what's the deal with the curleys that I needed? As you can see above, 
 wrapping statements in curleys turns it into a function (as noted in the post window when it printed 
-```-> a Function``` 
+```
+-> a Function
+``` 
 after I evaluated
 that line). Since synths don't have a `play` method, but functions do, we need to wrap code up in curleys to make sure we can execute it
 as a sound generator. Ok, sure. Thats fine. 
@@ -78,7 +83,7 @@ our speakers). We can pass in some arguments to change the default settings like
 y = {SinOsc.ar(freq:220, phase:0, mul:0.25, add:0)}.play;
 ```
 Cool. Since I'm in the habit of writing functions that handle little bits of computation, I'd like to write a little function that 
-randomly computes a frequency for our little sine wave. Here's my first attempt (spoiler alert: this is *incorrect* as we'll see 
+randomly selects a frequency multiplyer for our little sine wave. Here's my first attempt (spoiler alert: this is *incorrect* as we'll see 
 shortly). After writing this, I hit CTRL-A to highlight everything and evaluate with CTRL-ENTER:
 ``` SuperCollider
 randHarmonic = {
@@ -95,8 +100,7 @@ ERROR: Variable 'randHarmonic' not defined.
   line 4 char 2:
 
   };
-    
-  
+   
 -----------------------------------
 ERROR: Variable 'randHarmonic' not defined.
   in file 'selected text'
@@ -107,10 +111,13 @@ ERROR: Variable 'randHarmonic' not defined.
 -----------------------------------
 -> nil
 ```
-But I defined `randHarmonic` the same way as the function `y`? How come it didn't work? Well dear reader, you'd be surprised to find out 
+But I defined `randHarmonic` the same way as the function `y`, didn't I? How come it didn't work? Well dear reader, you'd be surprised to find out 
 that SuperCollider treats lower-case single-letter variable names like `y` differently than longer names like `randHarmonic`. Awesome 🙃. It all has to do with local and global variables. Lower case letters are reserved as global variables, and therefore when we
-assign a function to one of these letters it is visible everywhere. My `randHarmonic` name isn't visible anywhere, in fact, so to make
-it into a global variable I have to prepend a `~` before the name. Also, to make things easier for evaluation, we need to surround all 
+assign a function to one of these letters it is visible everywhere. My `randHarmonic` name isn't visible anywhere, in fact (because I didn't use `var`, I think..), so to make
+it into a global variable I have to prepend a `~` before the name. 
+
+
+Also, to make things easier for evaluation, we need to surround all 
 of these statements in `()` paren's to tell the interpreter to treat everything as a single code block. This is handy because now we can
 evaluate the whole block with CTRL-ENTER without having to highlight every line (as long as the cursor is focused anywhere within the
 block). So now our code looks like this:
@@ -126,6 +133,8 @@ y = {SinOsc.ar( 220 * ~randHarmonic, mul:0.25)}.play;
 ```
 Evaluating this block creates a new synth with a frequency that is multiplied by a randomly selected prime number. If you keep 
 evaluating it then it will keep creating new syths that are all in harmony with eachother (though they may sound a bit funny!). 
+
+### More coming soon...
 
 # Notes
 
